@@ -1,0 +1,62 @@
+---
+title: "EDA of Oracles Elixir Match Data"
+author: "Jarren Santos"
+date: "7/17/2020"
+output: html_document
+---
+
+```{r behind_the_scenes, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Background
+
+I decided that I should pursue some passion projects that I have always wanted to work on since I was first employed (~August 2018). The current COVID-19 pandemic is hitting the U.S. hard, and I felt that one way to make good use of the time that I have is to analyze and visualize data related to my interests.
+
+Here, I present an exploratory data analysis (EDA) of League of Legends match data from various professional circuits. There are several sources that outline what constitutes an EDA and how it is built ^[John W. Tukey (1977). *Exploratory Data Analysis*, Addison-Wesley] ^[Garrett Grolemund & Hadley Wickham (2017). *R for Data Science*, Exploratory Data Analysis. https://r4ds.had.co.nz/exploratory-data-analysis.html] ^[David C. Hoaglin, Frederick Mosteller, John W. Tukey (1982). *Understanding Robust and Exploratory Data Analysis*, Wiley] ^[Prasad Patil (2018). What is Exploratory Data Analysis? https://towardsdatascience.com/exploratory-data-analysis-8fc1cb20fd15]. My EDA will apply concepts from some of these sources while mixing in my own ideas of how an EDA should be conducted. Note that there is a lot to dig through in the data, so this EDA may seem longer or more in-depth than others.
+
+
+
+# Data
+
+I pull match data from [Oracle's Elixir](https://oracleselixir.com/), where [Tim Sevenhuysen](https://twitter.com/TimSevenhuysen) and other community members have compiled rich and comprehensive information on League of Legends eSports statistics. Match data refer to information and metrics collected throughout the course of an individual match between two League of Legends eSports teams across various professional circuits. 
+
+Some variables in the data are self-explanatory like `year`, describing the year a match took place; other variables are less obvious like `gspd`, describing average gold spent percentage difference. For more information on the variables included in the match data, reference the [Definitions section](https://oracleselixir.com/definitions) of Oracle's Elixir.
+
+
+
+# Setup
+
+## R Packages
+
+```{r, message = FALSE, warning = FALSE, cache = FALSE}
+library(tidyverse)
+```
+
+## Data Import
+
+I pull in the most recent match data that is made available on Oracle's Elixir to date (July 17, 2020 3:38 AM). 
+
+```{r}
+# 2020 Match Data
+link_match_data <- "https://oracleselixir-downloadable-match-data.s3-us-west-2.amazonaws.com/2020_LoL_esports_match_data_from_OraclesElixir_20200717.csv"
+match_data <- read_csv(link_match_data)
+```
+
+
+
+# Exploratory Data Analysis (EDA)
+
+## Variables & General Summaries
+
+```{r}
+# Get an idea of what variables exist and generate any quick summaries
+glimpse(match_data)
+skim(match_data)
+```
+
+
+
+# Limitations
+
+* I pull in the most recent match data that is made available on Oracle's Elixir to date (July 17, 2020 3:38 AM). However, the website will post new data in the future, potentially as soon as tomorrow. I may want to update how I import data by reading the HTML where the latest download is available and use the link that is provided there as the reference for where I get my data. This would allow me to dynamically read the most updated data.
